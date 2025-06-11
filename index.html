@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=320, initial-scale=1.0">
+  <title>コーヒーメニュー</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="message-box">コーヒーを選択してください</div>
+    <section class="menu-section hot">
+      <div class="section-title"><span></span>HOT COFFEE<span></span></div>
+      <div class="cups">
+        <div class="cup hot cup-select">
+          <div class="steam"><span class="steam-line"></span></div>
+          <svg class="cup-svg" viewBox="0 0 80 100">
+            <polygon points="10,10 70,10 60,90 20,90" class="cup-outline"/>
+          </svg>
+          <span class="cup-size">R</span>
+        </div>
+        <div class="cup hot cup-select">
+          <div class="steam"><span class="steam-line"></span></div>
+          <svg class="cup-svg" viewBox="0 0 80 100">
+            <polygon points="10,10 70,10 60,90 20,90" class="cup-outline"/>
+          </svg>
+          <span class="cup-size">L</span>
+        </div>
+      </div>
+    </section>
+    <section class="menu-section ice">
+      <div class="section-title"><span></span>ICE COFFEE<span></span></div>
+      <div class="cups">
+        <div class="cup ice cup-select">
+          <svg class="cup-svg" viewBox="0 0 80 100">
+            <polygon points="10,10 70,10 60,90 20,90" class="cup-outline"/>
+            <g class="ice-cubes">
+              <rect x="20" y="75" width="10" height="10"/>
+              <rect x="35" y="80" width="10" height="10"/>
+              <rect x="50" y="75" width="10" height="10"/>
+            </g>
+          </svg>
+          <span class="cup-size">R</span>
+        </div>
+        <div class="cup ice cup-select">
+          <svg class="cup-svg" viewBox="0 0 80 100">
+            <polygon points="10,10 70,10 60,90 20,90" class="cup-outline"/>
+            <g class="ice-cubes">
+              <rect x="20" y="75" width="10" height="10"/>
+              <rect x="35" y="80" width="10" height="10"/>
+              <rect x="50" y="75" width="10" height="10"/>
+            </g>
+          </svg>
+          <span class="cup-size">L</span>
+        </div>
+      </div>
+    </section>
+    <section class="menu-section latte">
+      <div class="section-title"><span></span>CAFE LATTE<span></span></div>
+      <div class="cups">
+        <div class="cup latte hot">
+          <div class="steam"><span class="steam-line"></span></div>
+          <svg class="cup-svg" viewBox="0 0 80 100">
+            <polygon points="10,10 70,10 60,90 20,90" class="cup-outline"/>
+          </svg>
+          <span class="cup-size">R</span>
+        </div>
+        <div class="cup latte hot">
+          <div class="steam"><span class="steam-line"></span></div>
+          <svg class="cup-svg" viewBox="0 0 80 100">
+            <polygon points="10,10 70,10 60,90 20,90" class="cup-outline"/>
+          </svg>
+          <span class="cup-size">L</span>
+        </div>
+      </div>
+      <div class="cups">
+        <div class="cup latte ice">
+          <svg class="cup-svg" viewBox="0 0 80 100">
+            <polygon points="10,10 70,10 60,90 20,90" class="cup-outline"/>
+            <g class="ice-cubes">
+              <rect x="20" y="75" width="10" height="10"/>
+              <rect x="35" y="80" width="10" height="10"/>
+              <rect x="50" y="75" width="10" height="10"/>
+            </g>
+          </svg>
+          <span class="cup-size">R</span>
+        </div>
+        <div class="cup latte ice">
+          <svg class="cup-svg" viewBox="0 0 80 100">
+            <polygon points="10,10 70,10 60,90 20,90" class="cup-outline"/>
+            <g class="ice-cubes">
+              <rect x="20" y="75" width="10" height="10"/>
+              <rect x="35" y="80" width="10" height="10"/>
+              <rect x="50" y="75" width="10" height="10"/>
+            </g>
+          </svg>
+          <span class="cup-size">L</span>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    // カップ全体で濃さ選択肢を表示
+    document.querySelectorAll('.cup-select, .cup.latte').forEach(cup => {
+      cup.style.cursor = 'pointer';
+      cup.addEventListener('click', function() {
+        const msgBox = document.querySelector('.message-box');
+        const hotTitle = document.querySelector('.menu-section.hot .section-title');
+        const iceTitle = document.querySelector('.menu-section.ice .section-title');
+        const latteTitle = document.querySelector('.menu-section.latte .section-title');
+        // 他のカップを白色に
+        document.querySelectorAll('.cup-select, .cup.latte').forEach(otherCup => {
+          if (otherCup !== cup) {
+            otherCup.classList.add('white-out');
+          } else {
+            otherCup.classList.remove('white-out');
+          }
+        });
+        // すべてのglowクラスを一旦解除
+        hotTitle.classList.remove('hot-glow');
+        iceTitle.classList.remove('ice-glow');
+        latteTitle.classList.remove('latte-glow');
+        // 選択カップに応じてglowクラス付与
+        if (cup.classList.contains('hot')) {
+          hotTitle.classList.add('hot-glow');
+        } else if (cup.classList.contains('ice')) {
+          iceTitle.classList.add('ice-glow');
+        } else if (cup.classList.contains('latte')) {
+          latteTitle.classList.add('latte-glow');
+        }
+        // ラテ系は濃さ選択なし
+        if (cup.classList.contains('latte')) {
+          msgBox.textContent = '美味しいカフェラテを淹れています';
+          setTimeout(() => {
+            msgBox.textContent = '美味しいカフェラテが出来上がりました';
+            setTimeout(() => {
+              msgBox.textContent = 'コーヒーを選択してください';
+              document.querySelectorAll('.cup-select, .cup.latte').forEach(c => c.classList.remove('white-out'));
+              hotTitle.classList.remove('hot-glow');
+              iceTitle.classList.remove('ice-glow');
+              latteTitle.classList.remove('latte-glow');
+            }, 5000);
+          }, 5000);
+          return;
+        }
+        msgBox.innerHTML = `
+          <button class="strength-btn">濃いめ</button>
+          <button class="strength-btn">普通</button>
+          <button class="strength-btn">薄め</button>
+        `;
+        document.querySelectorAll('.strength-btn').forEach(strBtn => {
+          strBtn.addEventListener('click', function() {
+            msgBox.textContent = '美味しいコーヒーを淹れています';
+            setTimeout(() => {
+              msgBox.textContent = '美味しいコーヒーが出来上がりました';
+              setTimeout(() => {
+                msgBox.textContent = 'コーヒーを選択してください';
+                document.querySelectorAll('.cup-select, .cup.latte').forEach(c => c.classList.remove('white-out'));
+                hotTitle.classList.remove('hot-glow');
+                iceTitle.classList.remove('ice-glow');
+                latteTitle.classList.remove('latte-glow');
+              }, 5000);
+            }, 5000);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
